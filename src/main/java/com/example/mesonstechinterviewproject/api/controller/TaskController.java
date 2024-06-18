@@ -3,9 +3,10 @@ package com.example.mesonstechinterviewproject.api.controller;
 import com.example.mesonstechinterviewproject.persistence.entity.Task;
 import com.example.mesonstechinterviewproject.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -19,21 +20,20 @@ public class TaskController {
     }
 
     @GetMapping("/")
-    public Task getAllTasks() {
-        System.out.println("in get map");
+    public List<Task> getAllTasks() {
         return taskService.getAllTask();
     }
 
     @PostMapping("/")
     public String createTask(@RequestBody Task task)
     {
-        taskService.save(task);
+        taskService.create(task);
         return "success";
     }
 
-    @PostMapping("/{id}")
-    public Optional<Task> putTask(@PathVariable String id) {
-        return taskService.getTaskById(id);
+    @PutMapping("/{id}")
+    public Task putTask(@PathVariable String id, @RequestBody Task updatedTask) {
+        return taskService.putTaskById(id,updatedTask);
     }
 
     @DeleteMapping("/{id}")

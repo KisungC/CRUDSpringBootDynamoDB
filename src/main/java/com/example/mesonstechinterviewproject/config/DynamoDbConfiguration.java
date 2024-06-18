@@ -12,9 +12,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
-import java.util.List;
-import java.util.Map;
-
 @Configuration
 @EnableDynamoDBRepositories(basePackages = "com.example.mesonstechinterviewproject.persistence.repository")
 public class DynamoDbConfiguration {
@@ -30,12 +27,16 @@ public class DynamoDbConfiguration {
     @Value("${amazon.aws.region}")
     private String amazonAWSRegion;
 
+
+    //for AWS SDK
     @Bean
     @Primary
     public DynamoDBMapper mapper(AmazonDynamoDB amazonDynamoDB)
     {
         return new DynamoDBMapper(amazonDynamoDB);
     }
+
+
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
