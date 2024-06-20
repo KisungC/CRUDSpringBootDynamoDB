@@ -6,13 +6,11 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 import lombok.Data;
 
-import java.util.List;
-
-
 @DynamoDBTable(tableName = "MesonsTechInterviewProjectApplication")
 @Data
 public class Task {
 
+    //default constructor required by AWS
     public Task() {
         this.title = null;
         this.description = null;
@@ -20,7 +18,7 @@ public class Task {
         this.dueDate=null;
     }
 
-    public Task(String title, List<String> description, List<String> status, String dueDate) {
+    public Task(String title, String description, String status, String dueDate) {
         this.title = title;
         this.description = description;
         this.status = status;
@@ -35,33 +33,44 @@ public class Task {
     private String title;
 
     @DynamoDBAttribute(attributeName = "Description")
-    private List<String> description;                   //since DynamoDB is non-relational, users can put as many array as possible
+    private String description;
 
     @DynamoDBAttribute(attributeName = "Status")
-    private List<String> status;
+    private String status;
 
     @DynamoDBAttribute(attributeName = "DueDate")
     private String dueDate;
+
+
+    public String getTitle() {
+        return title;
+    }
 
     public void setTitle(String title) {
         this.title = title;
     }
 
-    public void setDescription(List<String> description1) {
-        this.description = description1;
-    }
-
-    public List<String> getDescription(List<String> description) {
+    public String getDescription() {
         return description;
     }
 
-    public void setStatus(List<String> status) {
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getDueDate() {
+        return dueDate;
     }
 
     public void setDueDate(String dueDate) {
         this.dueDate = dueDate;
     }
-
-
 }

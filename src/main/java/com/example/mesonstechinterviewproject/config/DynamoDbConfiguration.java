@@ -27,7 +27,6 @@ public class DynamoDbConfiguration {
     @Value("${amazon.aws.region}")
     private String amazonAWSRegion;
 
-
     //for AWS SDK
     @Bean
     @Primary
@@ -36,10 +35,11 @@ public class DynamoDbConfiguration {
         return new DynamoDBMapper(amazonDynamoDB);
     }
 
-
+    //Connecting to DynamoDB
 
     @Bean
     public AmazonDynamoDB amazonDynamoDB() {
+
         return AmazonDynamoDBClientBuilder.standard()
                 .withEndpointConfiguration(new AwsClientBuilder.EndpointConfiguration(amazonAWSEndpoint, amazonAWSRegion))
                 .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSSecretKey)))

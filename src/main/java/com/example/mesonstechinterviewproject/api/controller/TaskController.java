@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("/tasks")
 public class TaskController {
 
@@ -20,26 +21,27 @@ public class TaskController {
     }
 
     @GetMapping("/")
-    public List<Task> getAllTasks() {
-        return taskService.getAllTask();
+    public List<Task> getAllTasks() {       //gets everything from the database
+        return taskService.getAllTask();    //goes into taskService Module for business logic and returns data to the client
     }
 
     @PostMapping("/")
-    public String createTask(@RequestBody Task task)
+    public ResponseEntity<String> createTask(@RequestBody Task task)    //creates a task
     {
         taskService.create(task);
-        return "success";
+        return ResponseEntity.ok().body("{\"message\": \"success\"}");
     }
 
     @PutMapping("/{id}")
-    public Task putTask(@PathVariable String id, @RequestBody Task updatedTask) {
-        return taskService.putTaskById(id,updatedTask);
+    public ResponseEntity<String> putTask(@PathVariable String id, @RequestBody Task updatedTask) {     //update a task
+        taskService.putTaskById(id,updatedTask);
+        return ResponseEntity.ok().body("{\"message\": \"success\"}");
     }
 
     @DeleteMapping("/{id}")
-    public String deleteTask(@PathVariable String id) {
+    public ResponseEntity<String> deleteTask(@PathVariable String id) {     //delete a task
         taskService.deleteTask(id);
-        return "success";
+        return ResponseEntity.ok().body("{\"message\": \"success\"}");
     }
 
 }

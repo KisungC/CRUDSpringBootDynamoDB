@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @EnableScan
 @Repository
 public interface TaskRepo extends CrudRepository<Task, String> {
+//using the default functions from CrudRepository
 }

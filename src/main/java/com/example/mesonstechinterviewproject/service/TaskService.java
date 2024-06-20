@@ -1,37 +1,34 @@
 package com.example.mesonstechinterviewproject.service;
 
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
-import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBScanExpression;
-import com.amazonaws.services.dynamodbv2.datamodeling.PaginatedScanList;
+//import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
+import com.example.mesonstechinterviewproject.exception.DatabaseConnectionException;
 import com.example.mesonstechinterviewproject.persistence.entity.Task;
 import com.example.mesonstechinterviewproject.persistence.repository.TaskRepo;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class TaskService {
 
     private final TaskRepo taskRepo;        //Putting taskRepo in as per specification
-    private final DynamoDBMapper mapper;    //This is from AWS SDK
+    //private final DynamoDBMapper mapper;    This is from AWS SDK
 
-    /*
     public TaskService(TaskRepo taskRepo) {
         this.taskRepo = taskRepo;
-    }*/
+    }
 
-    //for AWS SDK
+    /*for AWS SDK
     public TaskService(TaskRepo taskRepo, DynamoDBMapper mapper)
     {
         this.taskRepo = taskRepo;
         this.mapper = mapper;
-    }
+    }*/
 
 
     public List<Task> getAllTask() {
 
-        return (List<Task>) taskRepo.findAll();
+            return (List<Task>) taskRepo.findAll(); //returns array of lists to the controller
 
         /*
         List<Task> taskList = new ArrayList<>();
@@ -48,15 +45,34 @@ public class TaskService {
 
     public Task putTaskById(String id,Task updatedTask){
 
-        if(taskRepo.findById(id).isPresent())
-        {
-            taskRepo.save(updatedTask);
+        try{
+            Task taskDB = taskRepo.findById(id).get();      //get the task id from the client
+
+            if(taskRepo.findById(id).isPresent())
+            {
+                if(!updatedTask.getTitle().isBlank())           //if the client's task field has some information, then update
+                    taskDB.setTitle(updatedTask.getTitle());
+
+                if(!updatedTask.getDescription().isBlank())
+                    taskDB.setDescription(updatedTask.getDescription());
+
+                if(!updatedTask.getDueDate().isBlank())
+                    taskDB.setDueDate(updatedTask.getDueDate());
+
+                if(!updatedTask.getStatus().isBlank())
+                    taskDB.setStatus(updatedTask.getStatus());
+
+                taskRepo.save(taskDB);
+                return updatedTask;
+            }
+            else{
+                throw new RuntimeException("ID not found");
+            }
         }
-        else{
-            throw new RuntimeException("ID not found");
+        catch (DataAccessException e) {
+            throw new DatabaseConnectionException("Unable to connect to the database.");
         }
 
-        return updatedTask;
         /*
         for AWS SDK
         Task existingTask = mapper.load(Task.class, id);                //find id
@@ -71,23 +87,33 @@ public class TaskService {
         */
     }
 
-    public void create(Task task) {
-        taskRepo.save(task);
-
+    public void create(Task task) {         //create a task from the client info
+        try{
+            taskRepo.save(task);
+        }
+        catch (DataAccessException e) {
+            throw new DatabaseConnectionException("Unable to connect to the database.");
+        }
         /*
         for AWS SDK
         mapper.save(task);
          */
     }
 
-    public void deleteTask(String id) {
+    public void deleteTask(String id) {     //deletes a task by id
 
-        if(taskRepo.findById(id).isPresent())
-        {
-            taskRepo.deleteById(id);
+        try {
+            if(taskRepo.findById(id).isPresent())
+            {
+                taskRepo.deleteById(id);
+            }
+            else {
+                throw new RuntimeException("ID not found");
+            }
         }
-        else {
-            throw new RuntimeException("ID not found");
+
+                catch (DataAccessException e){
+            throw new DatabaseConnectionException("Database connection error");
         }
 
         /*
