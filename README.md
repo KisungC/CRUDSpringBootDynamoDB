@@ -1,4 +1,4 @@
-[Backend Application Link] (https://mesonsprojecttester.ca-central-1.elasticbeanstalk.com/)
+[Backend Application Link](https://mesonsprojecttester.ca-central-1.elasticbeanstalk.com/)
 
 ##Introduction
 This is a backend for RESTful API to have client connect to DynamoDB.
@@ -9,7 +9,7 @@ Using this application along with the frontend, clients are able to make CRUD op
 Pre-requisite:
 1. Creating IAM user for DynamoDB
 2. Creating DynamoDB Table
-3. Installation of [Java 17 JDK] (https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+3. Installation of [Java 17 JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 4. Spring-boot and Apache Maven
 
 ##Creating IAM
