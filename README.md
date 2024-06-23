@@ -1,18 +1,18 @@
 [Backend Application Link](https://mesonsprojecttester.ca-central-1.elasticbeanstalk.com/)
 
-##Introduction
+# Introduction
 This is a backend for RESTful API to have client connect to DynamoDB.
 
 Using this application along with the frontend, clients are able to make CRUD operations in user-friendly manner.
 
-##Geting Started
+## Geting Started
 Pre-requisite:
 1. Creating IAM user for DynamoDB
 2. Creating DynamoDB Table
 3. Installation of [Java 17 JDK](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 4. Spring-boot and Apache Maven
 
-##Creating IAM
+### Creating IAM
 1. Go to AWS Console
 2. Search for IAM
 3. On the left panel, go to "Users"
@@ -32,7 +32,7 @@ Pre-requisite:
 17. Click "Create access key"
 18. Copy the access key and secret access key
 
-##Creating DynamoDB
+### Creating DynamoDB
 1. Go to AWS Console
 2. Search DynamoDB
 3. Go to "Tables" on the left panel
@@ -41,7 +41,7 @@ Pre-requisite:
 6. Set Partition key as "Id" (requirement)
 7. Click "Create Table"
 
-##Adding keys to application.properties
+### Adding keys to application.properties
 1. After Downloading the code and following the previous steps open application.properties
 2. in
 ```bash
@@ -51,7 +51,7 @@ amazon.aws.secretkey=<your secretkey>
 Replace <your accesskey> with the access key that you created
 Replace <your secretkey> with the secret access key that you created
 
-##Running the application
+### Running the application
 1. At the root of the project, run:
 ```bash
 mvn spring-boot:run
